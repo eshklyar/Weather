@@ -13,8 +13,7 @@
 @interface ViewController () <UITextFieldDelegate>
 @property LoadJSON *myJSON;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldToEnterZip;
-@property  BOOL hasUserAlreadySetZipCode;
-@property NSString *zipCode;
+//@property UserDefaults *userDefaults;
 @end
 
 @implementation ViewController
@@ -23,70 +22,13 @@
     [super viewDidLoad];
     self.textFieldToEnterZip.delegate = self;
 
-
-
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//    self.hasUserAlreadySetZipCode = [userDefaults objectForKey:@"DefaultsLoaded"];
-    self.zipCode = [userDefaults objectForKey:@"zipCode"];
-//   NSString *tempstring = [userDefaults objectForKey:@"zipCode"];
-//    NSLog(@"tempString ,%@", tempstring);
-
-
-
-    NSLog(@"zipcode and hasSet %@ %d", self.zipCode, self.hasUserAlreadySetZipCode);
-    if ([self.zipCode isEqualToString:@""]) {
-//        self.hasUserAlreadySetZipCode = @NO;
-        [userDefaults setObject:@NO forKey:@"DefaultsLoaded"];
-        self.hasUserAlreadySetZipCode = NO;
-        NSLog(@"hasUserAlreadySetZipCode %d", self.hasUserAlreadySetZipCode);
-        self.textFieldToEnterZip.placeholder = @"type zip code here";
-
-    } else {
-          self.hasUserAlreadySetZipCode = [userDefaults objectForKey:@"DefaultsLoaded"];
-//        self.hasUserAlreadySetZipCode = @YES;
-
-        self.textFieldToEnterZip.placeholder = self.zipCode;
-
+    if ([[userDefaults objectForKey:@"DefaultsLoaded"] isEqualToValue:@YES]) {
+        self.textFieldToEnterZip.text =[userDefaults objectForKey:@"zipCode"];
     }
-//    if (self.hasUserAlreadySetZipCode == YES)
-//        {
-//        self.zipCode = [userDefaults objectForKey:@"zipCode"];
-//        self.textFieldToEnterZip.placeholder = self.zipCode;
-//
-//    }
-//    else{
-//        self.textFieldToEnterZip.placeholder = @"type zip code here";
-//    }
-
-
-
-
-
-//  NSLog(@"hasUserAlreadySetZipCode %@",self.hasUserAlreadySetZipCode);
-//    NSString *zip =@"52401";
-//    NSString *zip =self.textFieldToEnterZip.text;
-//    [self.textFieldToEnterZip resignFirstResponder];
-
-
-
-
-
-//    NSLog(@"defaultString %@", self.myJSON.urlWithoutZip);
-
-//    [self.myJSON addZipToURLWithoutZip:zip];
-//    NSLog(@"url with zip %@", self.myJSON.urlWithZip);
-//
-//    [self.myJSON createJSONwithURL];
-//    NSLog(@"jsonURL %@",self.myJSON.jsonURL);
-
-//
-//
-//    NSString *urlWithoutZip = @"http://api.wunderground.com/api/7e9508288732e45b/geolookup/q/";
-//
-//    NSString *urlWithZip = [urlWithoutZip stringByAppendingString:zip];
-//    NSString *jsonURL = [NSString stringWithFormat:@"%@%@",urlWithZip ,@".json"];
-
-//    NSLog(@"jsonURL %@",jsonURL);
+    else{
+        self.textFieldToEnterZip.placeholder =@"enter zip code";
+    }
 }
 
 -(void)callJson:(NSString*)zip {
@@ -97,51 +39,35 @@
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
 
-// [self.textFieldToEnterZip resignFirstResponder];
+    NSInteger zipNumber =[self.textFieldToEnterZip.text integerValue];
+
+       if ((zipNumber) && ([NSString stringWithFormat:@"%ld",(long)zipNumber].length == 5)){
+
+           NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+           [userDefaults setObject:self.textFieldToEnterZip.text forKey:@"zipCode"];
+           [userDefaults setObject:@YES forKey:@"DefaultsLoaded"];
+
+           [self.textFieldToEnterZip resignFirstResponder];
+           [self callJson:self.textFieldToEnterZip.text];
+
+           [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
 
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    self.hasUserAlreadySetZipCode = [userDefaults objectForKey:@"DefaultsLoaded"];
-    if (self.hasUserAlreadySetZipCode == NO)  {
-
-
-//    if ((self.hasUserAlreadySetZipCode == NO) || ([self.textFieldToEnterZip.text isEqualToString:@""])) {
-        self.zipCode = self.textFieldToEnterZip.text;
-
-        [userDefaults setValue:self.zipCode forKey:@"zipCode"];
-        [userDefaults setValue:@YES forKey:@"DefaultsLoaded"];
-
-        [userDefaults synchronize];
-
-
+    } else {
+        NSLog(@"no %li", (long)zipNumber);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"incorrect zip"
+                                                        message:@"you must enter 5 digit zip code"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
     }
 
-//        self.zipCode = [userDefaults objectForKey:@"zipCode"];
-//    }
-//    self.textFieldToEnterZip.text = [defaults objectForKey:@"infoString"];
-
-//    NSString *zip = self.textFieldToEnterZip.text;
-//    NSLog(@"urlString = %@",zip);
-
-
-//    [self.textFieldToEnterZip resignFirstResponder];
-//     [self callJson:zip];
-//    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    self.zipCode = self.textFieldToEnterZip.text;
-    [userDefaults setValue:self.zipCode forKey:@"zipCode"];
-    if ([self.textFieldToEnterZip.text isEqualToString:@""]) {
-        self.textFieldToEnterZip.placeholder = @"type zip code here";
-    }
-
-    [self.textFieldToEnterZip resignFirstResponder];
-    [self callJson:self.zipCode];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-
-    return YES;
-
+ return YES;
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField{
     return YES;
 }
+
 @end

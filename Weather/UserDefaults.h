@@ -9,7 +9,16 @@
 #import <Foundation/Foundation.h>
 
 @interface UserDefaults : NSObject
-@property NSString *userDefaults;
--(NSString *)SetUserDefults;
+@property NSUserDefaults *userDefaults;
+@property NSString *zipCode;
+@property  BOOL hasUserAlreadySetZipCode;
+
+
+-(id)initDefults;
+-(void)setDefaults:(NSString *)zip;
+-(void)resetDefaults;
+-(BOOL)checkIfUserDefaultsWereSet;
+
+
 
 @end
