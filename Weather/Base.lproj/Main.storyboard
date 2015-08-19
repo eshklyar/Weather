@@ -24,10 +24,27 @@
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="Zxg-TQ-bAU"/>
                                 </connections>
                             </textField>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="WGL-lO-k8h">
+                                <rect key="frame" x="70" y="203" width="123" height="29"/>
+                                <segments>
+                                    <segment title="english"/>
+                                    <segment title="metric"/>
+                                </segments>
+                                <connections>
+                                    <action selector="merticSegmentToEnglish:" destination="vXZ-lx-hvc" eventType="valueChanged" id="nRq-kl-OK0"/>
+                                </connections>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="temp" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zVv-1E-BTh">
+                                <rect key="frame" x="90" y="258" width="83" height="54"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="outputLabel" destination="zVv-1E-BTh" id="Vuq-IT-tkS"/>
                         <outlet property="textFieldToEnterZip" destination="zbh-9I-LY2" id="tRL-KZ-h1M"/>
                     </connections>
                 </viewController>

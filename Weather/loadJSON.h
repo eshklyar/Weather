@@ -9,20 +9,16 @@
 #import <Foundation/Foundation.h>
 
 @interface LoadJSON : NSObject
-//@property (nonatomic, weak)NSString *urlWithoutZip;
-//@property (nonatomic, weak)NSString *urlWithZip;
-@property (nonatomic, weak) NSString *jsonWithZip;
-@property NSString *tempString;
 
+@property (nonatomic, weak) NSString *urlWithZip;
+@property (nonatomic, weak) NSString *urlWithCityAndState;
+@property (nonatomic, weak) NSString *tempString;
 
-//-(id)initWithString;
 -(id)initWithString:(NSString *)zip;
 
-//-(void)addZipToURLWithoutZip: (NSString *) zip;
-//-(void)createJSONwithURL;
-
 -(void)findCityAndState;
+//-(NSString *) makeUrlWithCity:(NSString *)city AndState:(NSString*)state;
+-(void)findTemp:(NSString *)urlCS;
 
--(NSString *) makeUrlWithCity:(NSString *)city AndState:(NSString*)state;
 
 @end

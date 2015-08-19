@@ -14,13 +14,20 @@
 @property LoadJSON *myJSON;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldToEnterZip;
 //@property UserDefaults *userDefaults;
+//@property (weak, nonatomic) IBOutlet UISegmentedControl *metricSegmentedControl;
+@property (weak, nonatomic) IBOutlet UILabel *outputLabel;
+@property BOOL isMetric;
+
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.textFieldToEnterZip.delegate = self;
+
+    self.isMetric = false;
 
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if ([[userDefaults objectForKey:@"DefaultsLoaded"] isEqualToValue:@YES]) {
@@ -33,9 +40,11 @@
 
 -(void)callJson:(NSString*)zip {
     self.myJSON =[[LoadJSON alloc]initWithString:zip];
-    NSLog(@"final %@", self.myJSON.jsonWithZip);
+//    NSLog(@"final %@", self.myJSON.urlWithZip);
 
-    [self.myJSON findCityAndState];
+//    [self.myJSON findCityAndState];
+//    [self.myJSON findTemp];
+
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
 
@@ -68,6 +77,25 @@
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField{
     return YES;
+}
+- (IBAction)merticSegmentToEnglish:(id)sender {
+
+    UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
+    NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
+
+    if (selectedSegment == 0) {
+        //toggle the correct view to be visible
+        self.outputLabel.text = @"english";
+        self.isMetric = false;
+    }
+    else{
+        //toggle the correct view to be visible
+        self.outputLabel.text = @"metric";
+        self.isMetric = true;
+
+
+    }
+
 }
 
 @end

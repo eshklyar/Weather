@@ -5,45 +5,18 @@
 //  Created by Edik Shklyar on 8/14/15.
 //  Copyright (c) 2015 Edik Shklyar. All rights reserved.
 //
-
 #import "LoadJSON.h"
 
 @implementation LoadJSON
 
-//-(id)initWithString{
-//
-//    self.urlWithoutZip = @"http://api.wunderground.com/api/7e9508288732e45b/geolookup/q/";
-//    return self;
-//}
+
 -(id)initWithString: (NSString *) zip{
 
-//    self.urlWithoutZip = @"http://api.wunderground.com/api/7e9508288732e45b/geolookup/q/";
-    NSString *defaultString = @"http://api.wunderground.com/api/7e9508288732e45b/geolookup/q/";
-    NSString *defaultStringWithZip = [defaultString stringByAppendingString:zip];
-    self.jsonWithZip = [NSString stringWithFormat:@"%@%@",defaultStringWithZip ,@".json"];
+    NSString *defaultURL = @"http://api.wunderground.com/api/7e9508288732e45b/geolookup/q/";
+    NSString *defaultURLWithZip = [defaultURL stringByAppendingString:zip];
+    NSString *urlWithZip = [NSString stringWithFormat:@"%@%@",defaultURLWithZip ,@".json"];
 
-
-//    self.urlWithZip = [self.urlWithoutZip stringByAppendingString:zip];
-//    NSLog(@"urlWithZip in LoadJson %@", self.urlWithZip);
-//    self.jsonURL = [NSString stringWithFormat:@"%@%@",self.urlWithZip ,@".json"];
-    return self;
-}
-//-(void)addZipToURLWithoutZip: (NSString *) zip{
-//
-//    self.urlWithZip = [self.urlWithoutZip stringByAppendingString:zip];
-//    NSLog(@"addZipToURLWithoutZip");
-//}
-//-(void)createJSONwithURL{
-//    self.jsonURL = [NSString stringWithFormat:@"%@%@",self.urlWithZip ,@".json"];
-//    NSLog(@"jsonURL");
-//}
-
--(void)findCityAndState{
-    NSMutableArray *jsonArray = [NSMutableArray new];
-
-    NSURL *url = [NSURL URLWithString:self.jsonWithZip];
-    NSLog(@"url %@", url);
-
+    NSURL *url = [NSURL URLWithString:urlWithZip];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
 
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
@@ -56,107 +29,154 @@
         else
         {
             NSString *urlWithCityAndState =[[results objectForKey:@"location"] objectForKey:@"requesturl"];
+            NSLog(@" first urlWithCityAndState %@", urlWithCityAndState);
             NSArray *urlWithCityAndStateArray = [urlWithCityAndState componentsSeparatedByString:@"/"];
 
             NSString *state = urlWithCityAndStateArray[1];
             NSString *tempCity = urlWithCityAndStateArray[2];
             NSString *city = [tempCity substringWithRange: NSMakeRange(0, [tempCity rangeOfString: @"."].location)];
 
-            NSLog(@"lalala %@", [[results objectForKey:@"location"] objectForKey:@"requesturl"]);
+            NSLog (@"testing state and city %@%@", state, city);
 
-            NSLog(@"city and state %@, %@", city, state);
-            [self makeUrlWithCity:city AndState:state];
+            NSString *partialURL = @"http://api.wunderground.com/api/7e9508288732e45b/hourly/q/";
+            //            self.urlWithCityAndState =[partialURL stringByAppendingFormat:@"%@%@",state,tempCity];
+
+            NSString *urlwithCityAndState =[partialURL stringByAppendingFormat:@"%@%@%@%@",state,@"/",city,@".json"];
+
+            NSLog(@"!!!!!!!!!urlwithCityAndState %@", urlwithCityAndState);
+
+//            NSLog(@"!!!!!!!!!urlwithCityAndState %@", self.urlWithCityAndState);
+            [self findTemp:urlwithCityAndState];
+
+
+            //            NSLog(@"lalala %@", [[results objectForKey:@"location"] objectForKey:@"requesturl"]);
+
+            //            NSLog(@"city and state %@, %@", city, state);
+            //            [self makeUrlWithCity:city AndState:state];
+            
+            //            self.urlWithCityAndSt = [self makeUrlWithCity:city AndState:state];
+            //            NSLog (@"***************urlWithCityAndSt %@", self.urlWithCityAndSt);
         }
     }];
-//            NSLog(@"results %@", results);
-//            for (NSDictionary *dict in results) {
-//                [jsonArray addObject:dict];
+
+
+
+
+
+
+//    self.urlWithZip = [NSString stringWithFormat:@"%@%@",defaultURLWithZip ,@".json"];
+
+    return self;
+}
+
+//-(void)findCityAndState{
 //
-//            }
+////    NSMutableArray *jsonArray = [NSMutableArray new];
 //
-////            NSLog(@"array %@", jsonArray[1]);
-//            if (jsonArray.count ==0) {
-//                NSLog(@"json array is empty");
-//            } else {
-//                for (NSDictionary *subDict in jsonArray) {
-//                    NSLog(@"%@",[NSString stringWithFormat:@"%@",subDict] );
+//    NSURL *url = [NSURL URLWithString:self.urlWithZip];
+////    NSLog(@"url %@", url);
 //
+//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
 //
-//                    if ([[NSString stringWithFormat:@"%@",subDict] isEqualToString:@"location"]) {
-//                        NSDictionary *location = subDict;
-//                        NSLog(@"got location");
+//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
 //
-//                        for (id key in location) {
-//                             NSLog(@"There are %@ %@'s in stock", location[key], key);
-//                        }
+//        NSMutableDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&connectionError];
 //
-//                    }
-//
-//
-//
-//
-//
-////                    if ([subDict objectForKey:@"location" ] == nil) {
-////                        NSLog(@"location not found");
-////                    }
-//                else {
-////                        NSDictionary *loc = [subDict objectForKey:@"location"];
-////                        NSLog(@"location %@", loc);
-//                    }
-//                }
-//            }
-//
+//        if (connectionError) {
+//            NSLog(@"Error: %@", connectionError.localizedDescription);
 //        }
-////            for (id key in [results allKeys])
-////            {
-////                id value = [results objectForKey:key];
-////                if ([value isKindOfClass:[NSDictionary class]])
-////                {
-////                    NSDictionary* response = (NSDictionary*)value;
-////                    NSLog(@"NSDictionary* response %@", response);
-////                    for (id subKey in [response allKeys])
-////                    {
-////
-////                        if ([response objectForKey:@"location"] == nil) {
-////                            NSLog(@"location not found");
-////                        } else {
-////                            NSDictionary *location = [response objectForKey:@"location"];
-////                            NSString *requesturlString = [location objectForKey:@"requesturl"];
-////                            NSLog(@"requesturlString %@", requesturlString);
-////
-////                        }
-////                    }
-////                }
-////            }
-////        }
+//        else
+//        {
+//            NSString *urlWithCityAndState =[[results objectForKey:@"location"] objectForKey:@"requesturl"];
+//            NSArray *urlWithCityAndStateArray = [urlWithCityAndState componentsSeparatedByString:@"/"];
 //
-////        for (NSDictionary *dict in results)
-////            {
-////                if ([[dict objectForKey:@"location"] == nil])
-////                {
-////                    NSLog(@"location not found");
-////                }
-////                else
-////                {
-////                    NSDictionary *location = [dict objectForKey:@"location"];
-////                    NSString *requesturlString = [location objectForKey:@"requesturl"];
-////                    NSLog(@"request %@", requesturlString);
-////                    self.tempString = requesturlString;
-////                }
+//            NSString *state = urlWithCityAndStateArray[1];
+//            NSString *tempCity = urlWithCityAndStateArray[2];
+//            NSString *city = [tempCity substringWithRange: NSMakeRange(0, [tempCity rangeOfString: @"."].location)];
+//
+//            NSLog (@"testing state and city %@%@", state, city);
+//
+//            NSString *partialURL = @"http://api.wunderground.com/api/7e9508288732e45b/hourly/q/";
+////            self.urlWithCityAndState =[partialURL stringByAppendingFormat:@"%@%@",state,tempCity];
+//
+//            NSString *urlwithCityAndState =[partialURL stringByAppendingFormat:@"%@%@%@%@",state,@"/",city,@".json"];
+//
+//
+//
+//            NSLog(@"!!!!!!!!!urlwithCityAndState %@", self.urlWithCityAndState);
+////            [self findTemp];
+//
+//
+////            NSLog(@"lalala %@", [[results objectForKey:@"location"] objectForKey:@"requesturl"]);
+//
+////            NSLog(@"city and state %@, %@", city, state);
+////            [self makeUrlWithCity:city AndState:state];
+//
+////            self.urlWithCityAndSt = [self makeUrlWithCity:city AndState:state];
+////            NSLog (@"***************urlWithCityAndSt %@", self.urlWithCityAndSt);
+//        }
+//    }];
+//}
+//
+////-(NSString *) makeUrlWithCity:(NSString *)city AndState:(NSString*)state{
 ////
-////            }
-////        }
+////    NSString *partialURL = @"http://api.wunderground.com/api/7e9508288732e45b/hourly/q/";
+////    NSString *urlwithCityAndState =[partialURL stringByAppendingFormat:@"%@%@%@%@",state,@"/",city,@".json"];
+////    NSLog(@"urlwithCityAndState %@",urlwithCityAndState);
+////
+////    return urlwithCityAndState;
+////}
+-(void)findTemp:(NSString *)urlCS {
 
-//    NSLog(@"tempString &@", self.tempString);
+    NSMutableArray *jsonArray = [NSMutableArray new];
+
+    NSURL *url = [NSURL URLWithString:urlCS];
+        NSLog(@"url %@", url);
+
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+
+        NSMutableDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&connectionError];
+
+        if (connectionError) {
+            NSLog(@"Error: %@", connectionError.localizedDescription);
+        }
+        else
+        {
+            NSArray *hourlyForcast =[results objectForKey:@"hourly_forecast"];
+//            NSDictionary *hourDict =[results objectForKey:@"hourly_forecast"];
+//            NSLog(@"hourDict %@", hourDict);
+
+//            for (id key in [hourDict allKeys]) {
+//                id value = [results objectForKey:key];
+//                if ([value isKindOfClass:[NSDictionary class]]) {
+//                    NSDictionary* newDict = (NSDictionary*)value;
+                    NSLog(@"newDict %@", hourlyForcast);
+
+
+//                NSLog(@"key: %@, value: %@", @"temp", [key objectForKey:@"temp"]);
+
+            }
+
+//            for (NSDictionary *dict in hourlyForcast)
+//            {
+//
+//                           NSLog(@"this is a dict222 %@", hourlyForcast[0]);
+//
+////                NSLog(@"this is a dict %@", dict);
+//
+//            }
+
+
+//            NSLog(@"hourlyForcast %@", hourlyForcast);
+            NSLog(@"hello world");
+//        }
+    }];
+
 }
 
--(NSString *) makeUrlWithCity:(NSString *)city AndState:(NSString*)state{
 
-    NSString *partialURL = @"http://api.wunderground.com/api/7e9508288732e45b/hourly/q/";
-    NSString *urlwithCityAndState =[partialURL stringByAppendingFormat:@"%@%@%@%@",state,@"/",city,@".json"];
-    NSLog(@"urlwithCityAndState %@",urlwithCityAndState);
-
-    return urlwithCityAndState;
-}
+//}
 
 @end
