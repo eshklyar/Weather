@@ -88,9 +88,9 @@
            [self callJson:self.textFieldToEnterZip.text andEnglishMetric:self.isMetric];
 
            [self.textFieldToEnterZip resignFirstResponder];
-            self.outputLabel.text = [self.myJSON lala];
-           NSString *someOtherTempString = [self.myJSON lala];
-           NSLog(@"lalala %@", someOtherTempString);
+//            self.outputLabel.text = [self.myJSON lala];
+//           NSString *someOtherTempString = [self.myJSON lala];
+//           NSLog(@"lalala %@", someOtherTempString);
 //           [self callJson:self.textFieldToEnterZip.text];
 //           NSString *tempString = self.myJSON.metricTempString;
 //
