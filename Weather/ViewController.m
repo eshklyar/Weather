@@ -25,6 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+
     self.textFieldToEnterZip.delegate = self;
 
     self.isMetric = false;
@@ -36,14 +37,43 @@
     else{
         self.textFieldToEnterZip.placeholder =@"enter zip code";
     }
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedNotification:) name:@"Tempreture" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedNotification:) name:@"Not Found" object:nil];
+
 }
 
--(void)callJson:(NSString*)zip {
-    self.myJSON =[[LoadJSON alloc]initWithString:zip];
+-(void)callJson:(NSString*)zip andEnglishMetric:(BOOL) metric {
+    self.myJSON =[[LoadJSON alloc]initWithString:zip andEnglishMetric:metric];
 //    NSLog(@"final %@", self.myJSON.urlWithZip);
 
 //    [self.myJSON findCityAndState];
 //    [self.myJSON findTemp];
+
+}
+
+- (void)receivedNotification:(NSNotification *) notification {
+    if ([[notification name] isEqualToString:@"Tempreture"]) {
+        [self returnTempreture];
+        NSLog(@"gotTempfromCenter %@", self.myJSON.metricTempString);
+    }
+//    } else if
+
+//        ([[notification name] isEqualToString:@"Not Found"]) {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Results Found"
+//                                                            message:nil delegate:self
+//                                                  cancelButtonTitle:@"OK"
+//                                                  otherButtonTitles:nil, nil];
+//        [alertView show];
+     else {
+        NSLog(@"Something is wrong");
+     }
+}
+
+-(void)returnTempreture{
+    self.outputLabel.text = [NSString stringWithFormat:@"%@", self.myJSON.metricTempString];
 
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
@@ -55,9 +85,20 @@
            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
            [userDefaults setObject:self.textFieldToEnterZip.text forKey:@"zipCode"];
            [userDefaults setObject:@YES forKey:@"DefaultsLoaded"];
+           [self callJson:self.textFieldToEnterZip.text andEnglishMetric:self.isMetric];
 
            [self.textFieldToEnterZip resignFirstResponder];
-           [self callJson:self.textFieldToEnterZip.text];
+            self.outputLabel.text = [self.myJSON lala];
+           NSString *someOtherTempString = [self.myJSON lala];
+           NSLog(@"lalala %@", someOtherTempString);
+//           [self callJson:self.textFieldToEnterZip.text];
+//           NSString *tempString = self.myJSON.metricTempString;
+//
+//           self.outputLabel.text = [NSString stringWithFormat:@"%@",self.myJSON.metricTempString];
+
+
+
+           NSLog(@"somesome %@", [ NSString stringWithFormat:@"%@",self.myJSON.metricTempString]);
 
            [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
@@ -97,5 +138,8 @@
     }
 
 }
+-(NSString *)getMytemp{
 
+    return self.myJSON.metricTempString;
+}
 @end

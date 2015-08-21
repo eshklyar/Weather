@@ -10,7 +10,9 @@
 @implementation LoadJSON
 
 
--(id)initWithString: (NSString *) zip{
+-(id)initWithString: (NSString *) zip andEnglishMetric: (BOOL)metric{
+
+    self.metric = metric;
 
     NSString *defaultURL = @"http://api.wunderground.com/api/7e9508288732e45b/geolookup/q/";
     NSString *defaultURLWithZip = [defaultURL stringByAppendingString:zip];
@@ -47,6 +49,7 @@
 
 //            NSLog(@"!!!!!!!!!urlwithCityAndState %@", self.urlWithCityAndState);
             [self findTemp:urlwithCityAndState];
+
 
 
             //            NSLog(@"lalala %@", [[results objectForKey:@"location"] objectForKey:@"requesturl"]);
@@ -126,7 +129,9 @@
 ////
 ////    return urlwithCityAndState;
 ////}
+
 -(void)findTemp:(NSString *)urlCS {
+
 
     NSMutableArray *jsonArray = [NSMutableArray new];
 
@@ -152,12 +157,47 @@
 //                id value = [results objectForKey:key];
 //                if ([value isKindOfClass:[NSDictionary class]]) {
 //                    NSDictionary* newDict = (NSDictionary*)value;
-                    NSLog(@"newDict %@", hourlyForcast);
+//                    NSLog(@"newDict %@", hourlyForcast[0]);
+            NSDictionary *FCTTIME =  hourlyForcast[0];
+            NSDictionary *temperture = [FCTTIME objectForKey:@"temp"];
+            NSLog(@"newDict %@", temperture);
+
+//            NSString *gettingTemp = [NSString new];
+
+
+            if (self.metric == true) {
+                NSString *tempretureMetric = [temperture objectForKey:@"english"];
+                self.metricTempString = tempretureMetric;
+
+//                 self.metricTempString = tempretureMetric;
+                NSLog(@"tempretureMetric, %@",tempretureMetric);
+//                NSLog(@"tempretureMetric 2, %@",self.metricTempString);
+//                 [self lala:tempretureMetric ];
+//                    return tempretureMetric;
+            }
+
+            else if (self.metric == false){
+                NSString *tempretureMetric = [temperture objectForKey:@"metric"];
+//                 self.metricTempString = tempretureMetric;
+                self.metricTempString = tempretureMetric;
+
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"Tempreture" object:self];
+
+                NSLog(@"tempretureMetric, %@",tempretureMetric);
+//                NSLog(@"tempretureMetric 2, %@",self.metricTempString);
+//                  [self lala:tempretureMetric ];
+//                return tempretureMetric;
+            }
+            else{
+                NSLog(@"something is wrong");
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"Not Found" object:self];
+
+//                return nil;
+            }
 
 
 //                NSLog(@"key: %@, value: %@", @"temp", [key objectForKey:@"temp"]);
-
-            }
+        }
 
 //            for (NSDictionary *dict in hourlyForcast)
 //            {
@@ -170,13 +210,31 @@
 
 
 //            NSLog(@"hourlyForcast %@", hourlyForcast);
+
             NSLog(@"hello world");
+            NSLog(@"hello world %@", self.metricTempString);
+//        return self.metricTempString;
+
 //        }
     }];
+//    return self.metricTempString;
 
 }
 
+//-(NSString *) getTemp:(NSString *)tempr{
+//    self.metricTempString = tempr;
+//
+//return self.metricTempString;
+//}
 
 //}
+-(NSString *)lala{
+    NSString*tempString = self.metricTempString;
+    return tempString;
+}
+- (void)methodToGetTemp:(NSString * (^)(NSString * time))speedFunction
+                    {
+    self.metricTempString =@"45";
+}
 
 @end

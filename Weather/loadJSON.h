@@ -10,15 +10,20 @@
 
 @interface LoadJSON : NSObject
 
-@property (nonatomic, weak) NSString *urlWithZip;
-@property (nonatomic, weak) NSString *urlWithCityAndState;
-@property (nonatomic, weak) NSString *tempString;
+@property NSString *myString;
+//@property (nonatomic, weak) NSString *urlWithZip;
+//@property (nonatomic, weak) NSString *urlWithCityAndState;
+@property NSString * metricTempString;
+@property BOOL metric;
 
--(id)initWithString:(NSString *)zip;
+-(id)initWithString:(NSString *)zip andEnglishMetric: (BOOL)metric;
 
--(void)findCityAndState;
+//-(void)findCityAndState;
 //-(NSString *) makeUrlWithCity:(NSString *)city AndState:(NSString*)state;
--(void)findTemp:(NSString *)urlCS;
+- (void) methodToGetTemp:(NSString *(^)(NSString *time))speedFunction;
+-(void) findTemp:(NSString *)urlCS;
+-(NSString *)lala;
 
+//-(NSString *) getTemp:(NSString *)tempr;
 
 @end
