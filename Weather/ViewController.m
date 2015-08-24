@@ -7,11 +7,13 @@
 //
 
 #import "ViewController.h"
-#import "LoadJSON.h"
+//#import "LoadJSON.h"
+#import "LoadJsonData.h"
 #import "UserDefaults.h"
 
 @interface ViewController () <UITextFieldDelegate>
-@property LoadJSON *myJSON;
+//@property LoadJSON *myJSON;
+@property LoadJsonData *myJSON;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldToEnterZip;
 //@property UserDefaults *userDefaults;
 //@property (weak, nonatomic) IBOutlet UISegmentedControl *metricSegmentedControl;
@@ -46,11 +48,9 @@
 }
 
 -(void)callJson:(NSString*)zip andEnglishMetric:(BOOL) metric {
-    self.myJSON =[[LoadJSON alloc]initWithString:zip andEnglishMetric:metric];
-//    NSLog(@"final %@", self.myJSON.urlWithZip);
+//    self.myJSON =[[LoadJSON alloc]initWithString:zip andEnglishMetric:metric];
+    self.myJSON =[[LoadJsonData alloc]initWithString:zip andEnglishMetric:metric];
 
-//    [self.myJSON findCityAndState];
-//    [self.myJSON findTemp];
 
 }
 
@@ -59,14 +59,6 @@
         [self returnTempreture];
         NSLog(@"gotTempfromCenter %@", self.myJSON.metricTempString);
     }
-//    } else if
-
-//        ([[notification name] isEqualToString:@"Not Found"]) {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Results Found"
-//                                                            message:nil delegate:self
-//                                                  cancelButtonTitle:@"OK"
-//                                                  otherButtonTitles:nil, nil];
-//        [alertView show];
      else {
         NSLog(@"Something is wrong");
      }
@@ -88,18 +80,6 @@
            [self callJson:self.textFieldToEnterZip.text andEnglishMetric:self.isMetric];
 
            [self.textFieldToEnterZip resignFirstResponder];
-//            self.outputLabel.text = [self.myJSON lala];
-//           NSString *someOtherTempString = [self.myJSON lala];
-//           NSLog(@"lalala %@", someOtherTempString);
-//           [self callJson:self.textFieldToEnterZip.text];
-//           NSString *tempString = self.myJSON.metricTempString;
-//
-//           self.outputLabel.text = [NSString stringWithFormat:@"%@",self.myJSON.metricTempString];
-
-
-
-           NSLog(@"somesome %@", [ NSString stringWithFormat:@"%@",self.myJSON.metricTempString]);
-
            [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
 

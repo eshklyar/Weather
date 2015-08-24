@@ -17,6 +17,10 @@
 		BC2968121B7E9D4500037550 /* WeatherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC2968111B7E9D4500037550 /* WeatherTests.m */; };
 		BC29681D1B7E9DA000037550 /* LoadJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = BC29681C1B7E9DA000037550 /* LoadJSON.m */; };
 		BC2968201B824CD800037550 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = BC29681F1B824CD800037550 /* UserDefaults.m */; };
+		BC2968231B86C31700037550 /* FetchJsonDataDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BC2968221B86C31700037550 /* FetchJsonDataDelegate.m */; };
+		BC2968261B86CF0A00037550 /* ParseJsonDataForCityAndStateDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BC2968251B86CF0A00037550 /* ParseJsonDataForCityAndStateDelegate.m */; };
+		BC29B7001B87951400DCB385 /* FetchJSONData.m in Sources */ = {isa = PBXBuildFile; fileRef = BC29B6FF1B87951400DCB385 /* FetchJSONData.m */; };
+		BC29B7031B8A9CCD00DCB385 /* LoadJsonData.m in Sources */ = {isa = PBXBuildFile; fileRef = BC29B7021B8A9CCD00DCB385 /* LoadJsonData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +52,14 @@
 		BC29681C1B7E9DA000037550 /* LoadJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadJSON.m; sourceTree = "<group>"; };
 		BC29681E1B824CD800037550 /* UserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDefaults.h; sourceTree = "<group>"; };
 		BC29681F1B824CD800037550 /* UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDefaults.m; sourceTree = "<group>"; };
+		BC2968211B86C31700037550 /* FetchJsonDataDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FetchJsonDataDelegate.h; path = ../FetchJsonDataDelegate.h; sourceTree = "<group>"; };
+		BC2968221B86C31700037550 /* FetchJsonDataDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FetchJsonDataDelegate.m; path = ../FetchJsonDataDelegate.m; sourceTree = "<group>"; };
+		BC2968241B86CF0A00037550 /* ParseJsonDataForCityAndStateDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseJsonDataForCityAndStateDelegate.h; sourceTree = "<group>"; };
+		BC2968251B86CF0A00037550 /* ParseJsonDataForCityAndStateDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseJsonDataForCityAndStateDelegate.m; sourceTree = "<group>"; };
+		BC29B6FE1B87951400DCB385 /* FetchJSONData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchJSONData.h; sourceTree = "<group>"; };
+		BC29B6FF1B87951400DCB385 /* FetchJSONData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchJSONData.m; sourceTree = "<group>"; };
+		BC29B7011B8A9CCD00DCB385 /* LoadJsonData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadJsonData.h; sourceTree = "<group>"; };
+		BC29B7021B8A9CCD00DCB385 /* LoadJsonData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadJsonData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,12 +105,20 @@
 				BC2967F71B7E9D4500037550 /* AppDelegate.m */,
 				BC2967FC1B7E9D4500037550 /* ViewController.h */,
 				BC2967FD1B7E9D4500037550 /* ViewController.m */,
-				BC29681B1B7E9DA000037550 /* LoadJSON.h */,
-				BC29681C1B7E9DA000037550 /* LoadJSON.m */,
+				BC29B7011B8A9CCD00DCB385 /* LoadJsonData.h */,
+				BC29B7021B8A9CCD00DCB385 /* LoadJsonData.m */,
+				BC2968211B86C31700037550 /* FetchJsonDataDelegate.h */,
+				BC2968221B86C31700037550 /* FetchJsonDataDelegate.m */,
+				BC2968241B86CF0A00037550 /* ParseJsonDataForCityAndStateDelegate.h */,
+				BC2968251B86CF0A00037550 /* ParseJsonDataForCityAndStateDelegate.m */,
 				BC29681E1B824CD800037550 /* UserDefaults.h */,
 				BC29681F1B824CD800037550 /* UserDefaults.m */,
 				BC2967FF1B7E9D4500037550 /* Main.storyboard */,
 				BC2968021B7E9D4500037550 /* Images.xcassets */,
+				BC29B6FE1B87951400DCB385 /* FetchJSONData.h */,
+				BC29B6FF1B87951400DCB385 /* FetchJSONData.m */,
+				BC29681B1B7E9DA000037550 /* LoadJSON.h */,
+				BC29681C1B7E9DA000037550 /* LoadJSON.m */,
 				BC2968041B7E9D4500037550 /* LaunchScreen.xib */,
 				BC2967F91B7E9D4500037550 /* Weather.xcdatamodeld */,
 				BC2967F21B7E9D4500037550 /* Supporting Files */,
@@ -233,9 +253,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC2967FB1B7E9D4500037550 /* Weather.xcdatamodeld in Sources */,
+				BC2968231B86C31700037550 /* FetchJsonDataDelegate.m in Sources */,
 				BC2967F81B7E9D4500037550 /* AppDelegate.m in Sources */,
 				BC2967FE1B7E9D4500037550 /* ViewController.m in Sources */,
+				BC29B7001B87951400DCB385 /* FetchJSONData.m in Sources */,
+				BC2968261B86CF0A00037550 /* ParseJsonDataForCityAndStateDelegate.m in Sources */,
 				BC29681D1B7E9DA000037550 /* LoadJSON.m in Sources */,
+				BC29B7031B8A9CCD00DCB385 /* LoadJsonData.m in Sources */,
 				BC2968201B824CD800037550 /* UserDefaults.m in Sources */,
 				BC2967F51B7E9D4500037550 /* main.m in Sources */,
 			);
@@ -432,6 +456,7 @@
 				BC2968171B7E9D4500037550 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BC2968181B7E9D4500037550 /* Build configuration list for PBXNativeTarget "WeatherTests" */ = {
 			isa = XCConfigurationList;
@@ -440,6 +465,7 @@
 				BC29681A1B7E9D4500037550 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

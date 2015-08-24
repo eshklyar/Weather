@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+
+
+
 @interface LoadJSON : NSObject
 
 //@property NSString *myString;
@@ -15,6 +18,7 @@
 //@property (nonatomic, weak) NSString *urlWithCityAndState;
 @property NSString * metricTempString;
 @property BOOL metric;
+
 
 -(id)initWithString:(NSString *)zip andEnglishMetric: (BOOL)metric;
 
